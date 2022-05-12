@@ -4,7 +4,7 @@
 
 	<groupId>2d55d771-6ba2-4bbb-89de-912c14f71d7a</groupId>
 	<artifactId>movie-management-raml</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<packaging>mule-application</packaging>
 
 	<name>movie-management-rest</name>
@@ -62,13 +62,6 @@
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
-			<groupId>2d55d771-6ba2-4bbb-89de-912c14f71d7a</groupId>
-			<artifactId>bookmyshow-raml</artifactId>
-			<version>1.0.0</version>
-			<classifier>raml</classifier>
-			<type>zip</type>
-		</dependency>
-		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-apikit-module</artifactId>
 			<version>1.5.12</version>
@@ -102,6 +95,13 @@
 			<artifactId>mule-secure-configuration-property-module</artifactId>
 			<version>1.2.3</version>
 			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>2d55d771-6ba2-4bbb-89de-912c14f71d7a</groupId>
+			<artifactId>bookmyshow-raml</artifactId>
+			<version>1.0.4</version>
+			<classifier>raml</classifier>
+			<type>zip</type>
 		</dependency>
 	</dependencies>
 
