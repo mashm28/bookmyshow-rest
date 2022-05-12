@@ -20,7 +20,7 @@
         <AsyncLogger name="org.quartz" level="WARN"/>
         <AsyncLogger name="org.mule.munit.plugins.coverage.server" level="WARN"/>
 
-        <!-- Mule logger -->
+        <!-- Mule loggger -->
         <AsyncLogger name="org.mule.runtime.core.internal.processor.LoggerMessageProcessor" level="INFO"/>
 
         <AsyncRoot level="INFO">
