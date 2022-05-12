@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>2d55d771-6ba2-4bbb-89de-912c14f71d7a</groupId>
-	<artifactId>movie-management-raml</artifactId>
+	<artifactId>movie-management-rest</artifactId>
 	<version>1.0.1</version>
 	<packaging>mule-application</packaging>
 

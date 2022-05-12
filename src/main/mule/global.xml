@@ -17,6 +17,7 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 	</wsc:config>
 	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="6e0fece8-ca58-4f05-8777-4454459a6425" file="dev-out.yaml" key="${token}" />
 	<global-property doc:name="Global Property" doc:id="92a6dcfd-37b5-47fe-8422-f4b86b4527c8" name="token" value="1234567812345678" />
+	<api-gateway:autodiscovery apiId="17823661" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="9e8f07aa-e91e-476f-9eb0-fd766e0adfe2" flowRef="bookmyshow-main" />
 	<error-handler name="globalError_Handler" doc:id="3d5164ea-3a40-422d-b0cc-d5c881d59fd0">
 <on-error-propagate type="APIKIT:BAD_REQUEST">
 <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
