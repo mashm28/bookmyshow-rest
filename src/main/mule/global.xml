@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/wsc http://www.mulesoft.org/schema/mule/wsc/current/mule-wsc.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd">
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="f546515a-234e-42fb-a22d-622e3f3520ec" >
+		<db:my-sql-connection host="${secure::db.host}" port="${secure::db.port}" user="${secure::db.user}" password="${secure::db.password}" database="${secure::db.database}" />
+	</db:config>
+	<wsc:config name="Web_Service_Consumer_Config" doc:name="Web Service Consumer Config" doc:id="1baac05d-7012-4a44-beb2-2d67690aaffb" >
+		<wsc:connection wsdlLocation="http://order-management-ws1-soap.us-e2.cloudhub.io/order/orderSOAP?wsdl" service="order" port="orderSOAP" address="http://order-management-ws1-soap.us-e2.cloudhub.io/order/orderSOAP" />
+	</wsc:config>
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="6e0fece8-ca58-4f05-8777-4454459a6425" file="dev-out.yaml" key="${token}" />
+	<global-property doc:name="Global Property" doc:id="92a6dcfd-37b5-47fe-8422-f4b86b4527c8" name="token" value="1234567812345678" />
+	<api-gateway:autodiscovery apiId="17823661" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="00c324d9-ac76-43c8-99b4-75b855be355d" flowRef="bookmyshow-main" />
+	<error-handler name="globalError_Handler" doc:id="3d5164ea-3a40-422d-b0cc-d5c881d59fd0">
+<on-error-propagate type="APIKIT:BAD_REQUEST">
+<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+<ee:message>
+<ee:set-payload>
+<![CDATA[ %dw 2.0 output application/json --- {message: "Bad request"} ]]>
+</ee:set-payload>
+</ee:message>
+<ee:variables>
+<ee:set-variable variableName="httpStatus">400</ee:set-variable>
+</ee:variables>
+</ee:transform>
+</on-error-propagate>
+<on-error-propagate type="APIKIT:NOT_FOUND">
+<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+<ee:message>
+<ee:set-payload>
+<![CDATA[ %dw 2.0 output application/json --- {message: "Resource not found"} ]]>
+</ee:set-payload>
+</ee:message>
+<ee:variables>
+<ee:set-variable variableName="httpStatus">404</ee:set-variable>
+</ee:variables>
+</ee:transform>
+</on-error-propagate>
+<on-error-propagate type="APIKIT:METHOD_NOT_ALLOWED">
+<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+<ee:message>
+<ee:set-payload>
+<![CDATA[ %dw 2.0 output application/json --- {message: "Method not allowed"} ]]>
+</ee:set-payload>
+</ee:message>
+<ee:variables>
+<ee:set-variable variableName="httpStatus">405</ee:set-variable>
+</ee:variables>
+</ee:transform>
+</on-error-propagate>
+<on-error-propagate type="APIKIT:NOT_ACCEPTABLE">
+<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+<ee:message>
+<ee:set-payload>
+<![CDATA[ %dw 2.0 output application/json --- {message: "Not acceptable"} ]]>
+</ee:set-payload>
+</ee:message>
+<ee:variables>
+<ee:set-variable variableName="httpStatus">406</ee:set-variable>
+</ee:variables>
+</ee:transform>
+</on-error-propagate>
+<on-error-propagate type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+<ee:message>
+<ee:set-payload>
+<![CDATA[ %dw 2.0 output application/json --- {message: "Unsupported media type"} ]]>
+</ee:set-payload>
+</ee:message>
+<ee:variables>
+<ee:set-variable variableName="httpStatus">415</ee:set-variable>
+</ee:variables>
+</ee:transform>
+</on-error-propagate>
+<on-error-propagate type="APIKIT:NOT_IMPLEMENTED">
+<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+<ee:message>
+<ee:set-payload>
+<![CDATA[ %dw 2.0 output application/json --- {message: "Not Implemented"} ]]>
+</ee:set-payload>
+</ee:message>
+<ee:variables>
+<ee:set-variable variableName="httpStatus">501</ee:set-variable>
+</ee:variables>
+</ee:transform>
+</on-error-propagate>
+</error-handler>	
+	</mule>

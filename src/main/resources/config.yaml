@@ -1,0 +1,10 @@
+db:
+  host: "sql5.freemysqlhosting.net"
+  port: "3306"
+  user: "sql5486495"
+  password: "98lvea2Uq9"
+  database: "sql5486495"
+
+http:
+  host: "0.0.0.0"
+  port: "8081"

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
+    <http:listener-config name="bookmyshow-httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="8081"/>
+    </http:listener-config>
+    <apikit:config name="bookmyshow-config" api="resource::2d55d771-6ba2-4bbb-89de-912c14f71d7a:bookmyshow-raml:1.0.0:raml:zip:bookmyshow.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <flow name="bookmyshow-main">
+        <http:listener config-ref="bookmyshow-httpListenerConfig" path="/api/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="bookmyshow-config" />
+    </flow>
+    <flow name="bookmyshow-console">
+        <http:listener config-ref="bookmyshow-httpListenerConfig" path="/console/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="bookmyshow-config" />
+    </flow>
+		<flow name="delete:\order:bookmyshow-config">
+		<flow-ref doc:name="Cancel Order" doc:id="ee3bf308-1357-4871-a1c5-cb0cc690dce1" name="cancelTicketFlow"/>
+		</flow>
+		<flow name="get:\movies:bookmyshow-config">
+		<flow-ref doc:name="Get all Movies" doc:id="4b2c5bcb-603b-462f-81d6-79a35aa421c2" name="getmovies"/>
+		</flow>
+		<flow name="get:\offers:bookmyshow-config">
+		<flow-ref doc:name="Get offers" doc:id="bb5c206a-8ffc-43b4-aedc-fcc6defba20e" name="offersFlow"/>
+		</flow>
+		<flow name="get:\order:bookmyshow-config">
+		<flow-ref doc:name="Get Orders" doc:id="4cc0cab9-5408-43f0-b66a-40e47b464df7" name="getOrderDetails"/>
+		</flow>
+		<flow name="get:\theater:bookmyshow-config">
+		<flow-ref doc:name="Get all theaters" doc:id="2349a312-3991-4c88-a7d4-efde3d254fa7" name="getTheater"/>
+		</flow>
+		<flow name="get:\movies\(movie_id):bookmyshow-config">
+		<flow-ref doc:name="Get Movies by ID" doc:id="9a535070-f3d3-4767-9871-aed6560c2289" name="getSpecificMovie"/>
+		</flow>
+		<flow name="get:\theater\(theater_id):bookmyshow-config">
+		<flow-ref doc:name="Get Theater by ID" doc:id="3dc0ea1a-601d-4e10-9a90-93465d2d0ae2" name="getSpecificTheater"/>
+		</flow>
+		<flow name="post:\order:application\json:bookmyshow-config">
+		<flow-ref doc:name="Add Order Flow" doc:id="3595edd6-09ce-4ea9-be10-8963ea1c609f" name="addOrderFlow"/>
+</flow>
+</mule>

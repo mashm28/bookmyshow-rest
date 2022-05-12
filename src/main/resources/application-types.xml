@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="email_id" format="json">
+      <types:shape format="weave" example="examples/Order_Details-1.json"><![CDATA[%dw 2.0
+
+type email_id = {|
+  Order_ID: Number {"typeId": "int"}, 
+  Movie_Name: String, 
+  Theater_Name: String, 
+  Mobile_No: Number {"typeId": "int"}, 
+  Email_ID: String, 
+  DateTime: String, 
+  Seat_No: Array<Number {"typeId": "int"}>, 
+  Ammount_Paid: Number {"typeId": "int"}
+|} {"example": "{\\\"Order_ID\\\":12345,\\\"Movie_Name\\\":\\\"Shershah\\\",\\\"Theater_Name\\\":\\\"Inox\\\",\\\"Mobile_No\\\":965444,\\\"Email_ID\\\":\\\"test@abc.com\\\",\\\"DateTime\\\":\\\"2021-12-03T14:15:00\\\",\\\"Seat_No\\\":[5,6],\\\"Ammount_Paid\\\":400}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#27719e16-de88-438a-8d3a-a6e60d5b4f75">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:variables>
+          <types:variable name="email_id" type="email_id"/>
+        </types:variables>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#a7dc6f6f-fbd9-423b-9591-191094dbba8c">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="email_id"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
