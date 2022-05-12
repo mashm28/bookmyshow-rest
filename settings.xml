@@ -2,7 +2,7 @@
 <settings>
 	<servers>
 		<server>
-			<id>Anypoint</id>
+			<id>MuleExchangeRepository</id>
 			<username>mashm</username>
 			<password>Ssbssfbalan286@</password>
 		</server>
