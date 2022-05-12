@@ -139,14 +139,14 @@
 	</pluginRepositories>
 <distributionManagement>
 	<repository>
-		<id>MuleExchangeRepository</id>
-		<name>Mule Exchange Repository</name>
+		<id>MuleRepository</id>
+		<name>Mule Repository</name>
 		<url>https://maven.anypoint.mulesoft.com/api/v2/organizations/2d55d771-6ba2-4bbb-89de-912c14f71d7a/maven
 		</url>
 		<layout>default</layout>
 	</repository>
 	<snapshotRepository>
-		<id>MuleExchangeRepository</id>
+		<id>MuleRepository</id>
 		<url>https://maven.anypoint.mulesoft.com/api/v2/organizations/2d55d771-6ba2-4bbb-89de-912c14f71d7a/maven
 		</url>
 		<layout>default</layout>
